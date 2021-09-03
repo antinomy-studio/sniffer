@@ -1,5 +1,5 @@
 {
-  "name": "sniffer",
+  "name": "@antinomy-studio/sniffer",
   "version": "2.0.3",
   "description": "A browser sniffing util",
   "main": "index.js",
@@ -9,6 +9,9 @@
   "scripts": {
     "test": "browserify test/index.js | tap-closer | smokestack | faucet",
     "test-debug": "budo test/index.js --live"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
