@@ -30,7 +30,7 @@ function Sniffer() {
     var isChrome = window.chrome !== null && window.chrome !== undefined && navigator.vendor.toLowerCase() == 'google inc.' && !isOpera && !isEdge;
 
     var isTouch = 'ontouchstart' in document.documentElement;
-    var isIPadOS = (userAgent.match(/(iPad)/) /* iOS pre 13 */ || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) /* iPad OS 13 */);
+    var isIPadOS = (navigator.userAgent.match(/(iPad)/) /* iOS pre 13 */ || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) /* iPad OS 13 */);
 
     this.infos = {
         isDroid: isDroid,
