@@ -29,6 +29,9 @@ function Sniffer() {
     var isEdge = ua.indexOf('edge') > -1;
     var isChrome = window.chrome !== null && window.chrome !== undefined && navigator.vendor.toLowerCase() == 'google inc.' && !isOpera && !isEdge;
 
+    var isTouch = 'ontouchstart' in document.documentElement;
+    var isIPadOS = (userAgent.match(/(iPad)/) /* iOS pre 13 */ || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) /* iPad OS 13 */);
+
     this.infos = {
         isDroid: isDroid,
         isDroidPhone: isDroidPhone,
@@ -46,7 +49,9 @@ function Sniffer() {
         isSafari: isSafari,
         isOpera: isOpera,
         isChrome: isChrome,
-        isDesktop: !isPhone && !isTablet
+        isDesktop: !isPhone && !isTablet,
+        isTouch: isTouch,
+        isIPadOS: isIPadOS
     };
 
     Object.keys(this.infos).forEach(function(info) {
