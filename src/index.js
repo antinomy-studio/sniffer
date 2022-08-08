@@ -1,4 +1,11 @@
-import dashify from "dashify";
+const dashify = (str) => {
+  str.trim()
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/\W/g, m => /[À-ž]/.test(m) ? m : '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-')
+    .toLowerCase()
+}
 
 // Keep an eye on the browser compatibility and support of User-Agent Client-Hints API (anticipated to replace the userAgent)
 // https://web.dev/user-agent-client-hints/#javascript-api
@@ -6,15 +13,15 @@ import dashify from "dashify";
 
 class Sniffer {
   constructor () {
-    let ua = navigator.userAgent.toLowerCase();
-    let av = navigator.appVersion.toLowerCase(); // deprecated
+    let ua = navigator.userAgent.toLowerCase()
+    let av = navigator.appVersion.toLowerCase() // deprecated
     let uad = navigator.userAgentData
 
     // 1. define browser
     const { isFirefox, isSafari, isOpera, isIE11, isIE, isEdge, isChrome, isChromium, browserVersion } = this.defineBrowser(ua, av, uad)
     // 2. define operating system
     // 3. define device + define device characteristics
-    const {  isWindowsPhone, isDroidPhone, isDroidTablet, isIpad, isTablet, isPhone, isDevice, isTouch, isDroid, isIos, isIPadOS } = this.defineDeviceAndOS(ua, av, uad)
+    const { isWindowsPhone, isDroidPhone, isDroidTablet, isIpad, isTablet, isPhone, isDevice, isTouch, isDroid, isIos, isIPadOS } = this.defineDeviceAndOS(ua, av, uad)
 
     this.infos = {
       isDroid: isDroid,
@@ -38,17 +45,17 @@ class Sniffer {
       isIPadOS: isIPadOS,
       isChromium: isChromium,
       version: browserVersion,
-    };
+    }
 
-    Object.keys(this.infos).forEach(function(info) {
+    Object.keys(this.infos).forEach((info) => {
       Object.defineProperty(this, info, {
         get: function () {
           return this.infos[info]
         }
       })
-    }, this)
+    })
 
-    Object.freeze(this);
+    Object.freeze(this)
   }
 
   defineBrowser (ua, av, uad) {
@@ -106,49 +113,43 @@ class Sniffer {
   }
 
   defineDeviceAndOS (ua, av, uad) {
-    let isIos = !isWindowsPhone && (/ip(hone|od|ad)/i).test(ua) && !window.MSStream;
-    let isWindowsPhone = /windows phone|iemobile|wpdesktop/.test(ua);
-    let isDroidPhone = !isWindowsPhone && /android.*mobile/.test(ua);
-    let isDroidTablet = !isWindowsPhone && !isDroidPhone && (/android/i).test(ua);
-    let isIpad = !isWindowsPhone && (/ipad/i).test(ua) && isIos;
-    let isTablet = isDroidTablet || isIpad;
-    let isPhone = isDroidPhone || (isIos && !isIpad) || isWindowsPhone;
-    let isDevice = isPhone || isTablet;
-    let isTouch = 'ontouchstart' in document.documentElement;
-    let isDroid = isDroidPhone || isDroidTablet;
-    let isIPadOS = (navigator.userAgent.match(/(iPad)/) /* iOS pre 13 */ || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) /* iPad OS 13 */);
+    let isWindowsPhone = /windows phone|iemobile|wpdesktop/.test(ua)
+    let isIos = !isWindowsPhone && (/ip(hone|od|ad)/i).test(ua) && !window.MSStream
+    let isDroidPhone = !isWindowsPhone && /android.*mobile/.test(ua)
+    let isDroidTablet = !isWindowsPhone && !isDroidPhone && (/android/i).test(ua)
+    let isIpad = !isWindowsPhone && (/ipad/i).test(ua) && isIos
+    let isTablet = isDroidTablet || isIpad
+    let isPhone = isDroidPhone || (isIos && !isIpad) || isWindowsPhone
+    let isDevice = isPhone || isTablet
+    let isTouch = 'ontouchstart' in document.documentElement
+    let isDroid = isDroidPhone || isDroidTablet
+    let isIPadOS = (navigator.userAgent.match(/(iPad)/) /* iOS pre 13 */ || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) /* iPad OS 13 */)
 
-    // if(uad){ // uad doesn't work on that many mobile operators yet/ not (yet) the best option for the check  - supported: Chrome Android, Opera Android, Samsung Internet
-        // uad = isMobile && usefull to detect which model of device is being used !
-        // if supported on iOS devices - then perhaps we can check the isMobile bool + model name (?) - if contains iPhone or iPad
-
-        // if(navigator.userAgentData){ // if undefined use fallback ua and av
-        //   navigator.userAgentData.getHighEntropyValues(
-        //     ["model",
-        //     "platform",
-        //     "platformVersion",
-        //     "fullVersionList"])
-        //     .then(res => {
-        //       // console.log(Object.values(res.brands))
-        //       // update all variables here  - using useragent data
-        //       this.uad = res
-        //     })
-        // }
-    // }
-
-    return { isWindowsPhone, isDroidPhone, isDroidTablet, isIpad, isTablet, isPhone, isDevice, isTouch, isDroid, isIos, isIPadOS }
+    return {
+      isWindowsPhone,
+      isDroidPhone,
+      isDroidTablet,
+      isIpad,
+      isTablet,
+      isPhone,
+      isDevice,
+      isTouch,
+      isDroid,
+      isIos,
+      isIPadOS
+    }
   }
 
   addClasses(el) {
     Object.keys(this.infos).forEach(function(info) {
-        if(info == 'version') return
-        if (this.infos[info]) addClass(el, dashify(info));
-    }, this);
+      if(info == 'version') return
+      if (this.infos[info]) addClass(el, dashify(info))
+    }, this)
   }
 
   getInfos() {
-    return clone(this.infos);
-  };
+    return clone(this.infos)
+  }
 }
 
 const addClass = (el, className) => {
