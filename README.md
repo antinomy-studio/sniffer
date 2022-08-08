@@ -1,27 +1,23 @@
 sniffer.js
 ===
 
+⚠️ This is a fork from @ayamflow's repository. https://github.com/ayamflow/sniffer
 A browser sniffing util.
 
 ## Install
 
 ```
-npm install antinomy-studio/sniffer -S
+npm install @antinomy-studio/sniffer --save
 ```
 
 ## Usage
 
 ```
-var sniffer = require('sniffer');
+import sniffer from '@antinomy-studio/sniffer'
 
-console.log(sniffer.isDesktop); // true
+console.log(sniffer.isDesktop)
 
-// If using any app singleton, you can do something like
-_.extend(App, sniffer.getInfos());
-console.log(App.isDesktop); // true
-
-sniffer.addClasses(document.documentElement);
-console.log(document.documentElement.className); // is-desktop
+sniffer.addClasses(document.documentElement)
 ```
 
 ## Instance Methods
