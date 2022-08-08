@@ -1,11 +1,15 @@
-'use strict';
-
 var test = require('tape');
-var sniffer = require('../index.js');
+var sniffer = require('../dist/index').default;
 
 test('Desktop test', function(assert) {
     assert.ok(sniffer.isDesktop, 'isDesktop should be true.');
     assert.end();
+});
+
+test('Information test', function(assert) {
+  console.log(sniffer.infos)
+  assert.ok(Object.keys(sniffer.infos).length, 'Infos should have length');
+  assert.end();
 });
 
 test('Browsers test', function(assert) {
