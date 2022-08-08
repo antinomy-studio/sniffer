@@ -1,6 +1,6 @@
 {
   "name": "@antinomy-studio/sniffer",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A browser sniffing util",
   "main": "src/index.js",
   "type": "module",

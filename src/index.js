@@ -41,12 +41,12 @@ class Sniffer {
     };
 
     Object.keys(this.infos).forEach(function(info) {
-        Object.defineProperty(this, info, {
-            get: function () {
-                return this.infos[info];
-            }
-        });
-    }, this);
+      Object.defineProperty(this, info, {
+        get: function () {
+          return this.infos[info]
+        }
+      })
+    }, this)
 
     Object.freeze(this);
   }
@@ -161,6 +161,5 @@ const clone = (source) => {
   return JSON.parse(JSON.stringify(source));
 }
 
-const sniffer = typeof navigator !== 'undefined' ? new Sniffer() : ''
+const sniffer = typeof navigator !== 'undefined' ? new Sniffer() : {}
 export default sniffer
-
