@@ -2,13 +2,15 @@
   "name": "@antinomy-studio/sniffer",
   "version": "3.0.0",
   "description": "A browser sniffing util",
-  "main": "index.js",
+  "main": "src/index.js",
+  "type": "module",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "browserify test/index.js | tap-closer | smokestack | faucet",
-    "test-debug": "budo test/index.js --live"
+    "test-debug": "budo test/index.js --live",
+    "build": "babel src -d --out-dir dist"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -31,12 +33,18 @@
   },
   "homepage": "https://github.com/antinomy-studio/sniffer#readme",
   "devDependencies": {
+    "budo": "^11.7.0",
+    "browserify": "^17.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.5",
+    "babel-preset-env": "^1.7.0",
     "faucet": "0.0.1",
     "smokestack": "^3.4.1",
     "tap-closer": "^1.0.0",
     "tape": "^4.5.1"
   },
   "dependencies": {
-    "dashify": "^0.2.2"
+    "dashify": "^2.0.0"
   }
 }
