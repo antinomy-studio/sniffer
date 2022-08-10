@@ -1,9 +1,10 @@
-const dashify = (str) => {
-  str.trim()
+const dashify = (str, options) => {
+  if (typeof str !== 'string') throw new TypeError('expected a string')
+  return str.trim()
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/\W/g, m => /[À-ž]/.test(m) ? m : '-')
     .replace(/^-+|-+$/g, '')
-    .replace(/-{2,}/g, '-')
+    .replace(/-{2,}/g, m => options && options.condense ? '-' : m)
     .toLowerCase()
 }
 
@@ -141,9 +142,9 @@ class Sniffer {
   }
 
   addClasses(el) {
-    Object.keys(this.infos).forEach(function(info) {
-      if(info == 'version') return
-      if (this.infos[info]) addClass(el, dashify(info))
+    Object.keys(this.infos).forEach((info) => {
+      if (info === 'version') return
+      if (this.infos[info]) el.classList.add(dashify(info))
     }, this)
   }
 
@@ -152,15 +153,10 @@ class Sniffer {
   }
 }
 
-const addClass = (el, className) => {
-  if (el.addClass) el.addClass(className);
-  else if (el.classList) el.classList.add(className);
-  else el.className += ' ' + className;
-}
-
 const clone = (source) => {
   return JSON.parse(JSON.stringify(source));
 }
 
 const sniffer = typeof navigator !== 'undefined' ? new Sniffer() : {}
+
 export default sniffer
